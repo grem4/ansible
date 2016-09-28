@@ -1,0 +1,63 @@
+- name: Redmine dir install
+  sudo: yes
+  command:
+    chown -R {{ redmine_dir_owner }} {{ redmine_dir }}
+
+- name: Passenger check
+  command:
+    test -f /usr/local/bin/passenger-install-apache2-module
+  register:
+    result
+  failed_when: result.rc not in [0, 1]
+  changed_when: false
+
+- name: Passenger Install
+  sudo: yes
+  gem:
+    name=passenger
+    user_install=no
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  when: result.rc == 1
+
+- name: Passenger install modules
+  sudo: yes
+  command:
+    passenger-install-apache2-module --auto
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  when: result.rc == 1
+
+- name: Passenger get setting modules
+  command:
+    passenger-install-apache2-module --snippet
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  register:
+    passenger_snippet_vars
+  changed_when: false
+
+- name: redmine.conf copy
+  sudo: yes
+  template:
+    src=redmine.conf
+    dest=/etc/apache2/conf-available/redmine.conf
+
+- name: Redmine /redmine creating link 
+  sudo: yes
+  file:
+    state=link
+    src={{ redmine_dir }}/public
+    dest=/var/www/html/redmine
+
+- name: Redmine settings
+  sudo: yes
+  command:
+    a2enconf redmine
+
+- name: Apache settings
+  sudo: yes
+  service:
+    name=apache2
+    state=restarted
+    enabled=yes

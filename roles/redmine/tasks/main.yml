@@ -1,0 +1,79 @@
+- name: Redmine cheking
+  sudo: yes
+  subversion:
+    repo={{ redmine_svn_url }}
+    dest={{ redmine_dir }}
+
+- name: database.yml creating
+  sudo: yes
+  template:
+    src=database.yml
+    dest={{ redmine_dir }}/config/database.yml
+    force=no
+  register:
+    result_database_yml
+
+- name: configuration.yml creating
+  sudo: yes
+  template:
+    src=configuration.yml
+    dest={{ redmine_dir }}/config/configuration.yml
+    force=no
+
+- name: Gemfile.lock check
+  command:
+    test -f {{ redmine_dir }}/Gemfile.lock
+  register:
+    result_test_gemfile
+  failed_when: result_test_gemfile.rc not in [0, 1]
+  changed_when: false
+
+- name: gems installing
+  sudo: yes
+  command:
+    bundle install --path vendor/bundle
+    chdir={{ redmine_dir }}
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  when:
+    result_test_gemfile.rc == 1
+
+- name: gems dir setup
+  sudo: yes
+  command:
+    bundle update
+    chdir={{ redmine_dir }}
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+  when:
+    result_test_gemfile.rc == 0
+
+- name: secret token 
+  sudo: yes
+  command:
+    bundle exec rake generate_secret_token
+    chdir={{ redmine_dir }}
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+    RAILS_ENV: production
+
+- name: DB check
+  sudo: yes
+  command:
+    bundle exec rake db:migrate
+    chdir={{ redmine_dir }}
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+    RAILS_ENV: production
+
+- name: DB process
+  sudo: yes
+  command:
+    bundle exec rake redmine:load_default_data
+    chdir={{ redmine_dir }}
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
+    RAILS_ENV: production
+    REDMINE_LANG: ja
+  when:
+    result_database_yml|changed

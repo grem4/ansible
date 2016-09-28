@@ -1,0 +1,55 @@
+- name: Ruby check
+  command:
+    test -f {{ ruby_file_name }}
+  register:
+    ruby_test_vars
+  failed_when: ruby_test_vars.rc not in [0, 1]
+  changed_when: false
+
+- name: Ruby dir check
+  command:
+    test -f {{ work_dir }}/{{ ruby_archive_version }}
+  register:
+    ruby_src_test_vars
+  failed_when: ruby_test_vars.rc not in [0, 1]
+  changed_when: false
+
+- name: Ruby download
+  get_url:
+    url={{ ruby_url_dir }}/{{ ruby_archive_name }}
+    dest={{ work_dir }}
+  when: ruby_test_vars.rc == 1 and ruby_src_test_vars.rc == 1
+
+- name: Ruby expanding
+  unarchive:
+    src={{ work_dir }}/{{ ruby_archive_name }}
+    dest={{ work_dir }}
+    copy=no
+  when: ruby_test_vars.rc == 1 and ruby_src_test_vars.rc == 1
+
+- name: Ruby configure
+  command:
+    ./configure --disable-install-doc
+    chdir={{ work_dir }}/{{ ruby_archive_version }}
+  when: ruby_test_vars.rc == 1
+
+- name: Ruby making
+  command:
+    make
+    chdir={{ work_dir }}/{{ ruby_archive_version }}
+  when: ruby_test_vars.rc == 1
+
+- name: Ruby install
+  sudo: yes
+  command:
+    make install
+    chdir={{ work_dir }}/{{ ruby_archive_version }}
+  when: ruby_test_vars.rc == 1
+
+- name: bundler check
+  sudo: yes
+  gem:
+    name=bundler
+    user_install=no
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"

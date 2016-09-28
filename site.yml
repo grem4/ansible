@@ -1,0 +1,13 @@
+- hosts: redmine-servers
+
+  roles:
+    - system
+    - pg
+    - ruby
+    - redmine
+    - apache
+
+  post_tasks:
+    - name: Ending...
+      debug:
+        msg='Install complete http://{{ ansible_default_ipv4.address }}/redmine/ '
