@@ -19,10 +19,20 @@
   apt:
     name='postgresql,python-psycopg2'
 
-- name:  Apache settings
+- name: Debug
+  debug: msg={{ ansible_distribution_version }}
+
+- name:  Apache settings for 14.04
   sudo: yes
   apt:
     name='apache2-mpm-worker,apache2-dev,libapr1-dev,libaprutil1-dev'
+  when: "ansible_distribution_version|version_compare(14.04, '=')"
+
+- name:  Apache settings for 16.04
+  sudo: yes
+  apt:
+    name='apache2-dev,apache2-bin,libapr1-dev,libaprutil1-dev'
+  when: "ansible_distribution_version|version_compare(16.04, '=')"
 
 
 - name:  Installing tools
