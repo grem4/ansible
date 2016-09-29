@@ -1,6 +1,7 @@
 - hosts: redmine-servers
 
   roles:
+    - docker
     - system
     - pg
     - ruby

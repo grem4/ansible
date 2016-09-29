@@ -1,0 +1,199 @@
+
+PLAY [redmine-servers] *********************************************************
+
+TASK [setup] *******************************************************************
+ok: [localhost]
+
+TASK [docker : Fail if not a new release of Ubuntu] ****************************
+skipping: [localhost]
+
+TASK [docker : Add Docker repository key] **************************************
+ok: [localhost]
+
+TASK [docker : Alternative-Add Docker repository key] **************************
+skipping: [localhost]
+
+TASK [docker : HTTPS APT transport for Docker repository] **********************
+ok: [localhost]
+
+TASK [docker : Add Docker repository and update apt cache] *********************
+ok: [localhost]
+
+TASK [docker : Install (or update) docker package] *****************************
+ok: [localhost]
+
+TASK [docker : Set docker daemon options] **************************************
+skipping: [localhost]
+
+TASK [docker : Create systemd configuration directory for Docker service (systemd)] ***
+skipping: [localhost]
+
+TASK [docker : Set docker daemon options (systemd)] ****************************
+skipping: [localhost]
+
+TASK [docker : Ensure docker daemon options used (systemd)] ********************
+skipping: [localhost]
+
+TASK [docker : Fix DNS in docker.io] *******************************************
+skipping: [localhost]
+
+TASK [docker : pause] **********************************************************
+skipping: [localhost]
+
+TASK [docker : Upgrade latest pip, setuptools, docker-py and docker-compose with pip] ***
+changed: [localhost] => (item={u'version': u'latest', u'name': u'pip', u'install': True})
+changed: [localhost] => (item={u'version': u'latest', u'name': u'setuptools', u'install': True})
+ok: [localhost] => (item={u'version': u'latest', u'name': u'docker-py', u'install': True})
+failed: [localhost] (item={u'version': u'latest', u'name': u'docker-compose', u'install': True}) => {"cmd": "/usr/local/bin/pip install -U docker-compose", "failed": true, "item": {"install": true, "name": "docker-compose", "version": "latest"}, "msg": "stdout: Requirement already up-to-date: docker-compose in /usr/local/lib/python2.7/dist-packages\nRequirement already up-to-date: cached-property>=1.2.0,<2 in /usr/local/lib/python2.7/dist-packages (from docker-compose)\nRequirement already up-to-date: docopt>=0.6.1,<0.7 in /usr/local/lib/python2.7/dist-packages (from docker-compose)\nDownloading/unpacking PyYAML>=3.10,<4 from https://pypi.python.org/packages/4a/85/db5a2df477072b2902b0eb892feb37d88ac635d36245a72a6a69b23b383a/PyYAML-3.12.tar.gz#md5=4c129761b661d181ebf7ff4eb2d79950 (from docker-compose)\n  Running setup.py (path:/tmp/pip_build_root/PyYAML/setup.py) egg_info for package PyYAML\n    \nDownloading/unpacking requests>=2.6.1,<2.8 (from docker-compose)\nDownloading/unpacking texttable>=0.8.1,<0.9 (from docker-compose)\n  Downloading texttable-0.8.4.tar.gz\n  Running setup.py (path:/tmp/pip_build_root/texttable/setup.py) egg_info for package texttable\n    \nRequirement already up-to-date: websocket-client>=0.32.0,<1.0 in /usr/local/lib/python2.7/dist-packages (from docker-compose)\nRequirement already up-to-date: docker-py>=1.10.3,<2.0 in /usr/local/lib/python2.7/dist-packages (from docker-compose)\nDownloading/unpacking dockerpty>=0.4.1,<0.5 (from docker-compose)\n  Downloading dockerpty-0.4.1.tar.gz\n  Running setup.py (path:/tmp/pip_build_root/dockerpty/setup.py) egg_info for package dockerpty\n    \nDownloading/unpacking six>=1.3.0,<2 from https://pypi.python.org/packages/c8/0a/b6723e1bc4c516cb687841499455a8505b44607ab535be01091c0f24f079/six-1.10.0-py2.py3-none-any.whl#md5=3ab558cf5d4f7a72611d59a81a315dc8 (from docker-compose)\n  Downloading six-1.10.0-py2.py3-none-any.whl\nDownloading/unpacking jsonschema>=2.5.1,<3 (from docker-compose)\n  Downloading jsonschema-2.5.1-py2.py3-none-any.whl\nDownloading/unpacking enum34>=1.0.4,<2 (from docker-compose)\n  Downloading enum34-1.1.6-py2-none-any.whl\nRequirement already up-to-date: backports.ssl-match-hostname in /usr/local/lib/python2.7/dist-packages (from websocket-client>=0.32.0,<1.0->docker-compose)\nDownloading/unpacking functools32 (from jsonschema>=2.5.1,<3->docker-compose)\n  Downloading functools32-3.2.3-2.zip\n  Running setup.py (path:/tmp/pip_build_root/functools32/setup.py) egg_info for package functools32\n    \n    warning: no files found matching '*.txt'\n    no previously-included directories found matching 'build'\n    no previously-included directories found matching 'dist'\n    no previously-included directories found matching '.git*'\nInstalling collected packages: PyYAML, requests, texttable, dockerpty, six, jsonschema, enum34, functools32\n  Found existing installation: PyYAML 3.10\n    Not uninstalling PyYAML at /usr/lib/python2.7/dist-packages, owned by OS\n  Running setup.py install for PyYAML\n    checking if libyaml is compilable\n    x86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c build/temp.linux-x86_64-2.7/check_libyaml.c -o build/temp.linux-x86_64-2.7/check_libyaml.o\n    checking if libyaml is linkable\n    x86_64-linux-gnu-gcc -pthread build/temp.linux-x86_64-2.7/check_libyaml.o -lyaml -o build/temp.linux-x86_64-2.7/check_libyaml\n    building '_yaml' extension\n    x86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c ext/_yaml.c -o build/temp.linux-x86_64-2.7/ext/_yaml.o\n    ext/_yaml.c:4:20: fatal error: Python.h: Нет такого файла или каталога\n     #include \"Python.h\"\n                        ^\n    compilation terminated.\n    error: command 'x86_64-linux-gnu-gcc' failed with exit status 1\n    Complete output from command /usr/bin/python -c \"import setuptools, tokenize;__file__='/tmp/pip_build_root/PyYAML/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\\r\\n', '\\n'), __file__, 'exec'))\" install --record /tmp/pip-RFnJYT-record/install-record.txt --single-version-externally-managed --compile:\n    running install\n\nrunning build\n\nrunning build_py\n\ncreating build\n\ncreating build/lib.linux-x86_64-2.7\n\ncreating build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/representer.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/loader.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/composer.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/emitter.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/tokens.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/events.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/scanner.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/parser.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/__init__.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/reader.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/error.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/resolver.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/serializer.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/nodes.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/cyaml.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/dumper.py -> build/lib.linux-x86_64-2.7/yaml\n\ncopying lib/yaml/constructor.py -> build/lib.linux-x86_64-2.7/yaml\n\nrunning build_ext\n\ncreating build/temp.linux-x86_64-2.7\n\nchecking if libyaml is compilable\n\nx86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c build/temp.linux-x86_64-2.7/check_libyaml.c -o build/temp.linux-x86_64-2.7/check_libyaml.o\n\nchecking if libyaml is linkable\n\nx86_64-linux-gnu-gcc -pthread build/temp.linux-x86_64-2.7/check_libyaml.o -lyaml -o build/temp.linux-x86_64-2.7/check_libyaml\n\nbuilding '_yaml' extension\n\ncreating build/temp.linux-x86_64-2.7/ext\n\nx86_64-linux-gnu-gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c ext/_yaml.c -o build/temp.linux-x86_64-2.7/ext/_yaml.o\n\next/_yaml.c:4:20: fatal error: Python.h: Нет такого файла или каталога\n\n #include \"Python.h\"\n\n                    ^\n\ncompilation terminated.\n\nerror: command 'x86_64-linux-gnu-gcc' failed with exit status 1\n\n----------------------------------------\n  Can't roll back PyYAML; was not uninstalled\nCleaning up...\nCommand /usr/bin/python -c \"import setuptools, tokenize;__file__='/tmp/pip_build_root/PyYAML/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\\r\\n', '\\n'), __file__, 'exec'))\" install --record /tmp/pip-RFnJYT-record/install-record.txt --single-version-externally-managed --compile failed with error code 1 in /tmp/pip_build_root/PyYAML\n\n:stderr: Traceback (most recent call last):\n  File \"/usr/local/bin/pip\", line 9, in <module>\n    load_entry_point('pip==1.5.4', 'console_scripts', 'pip')()\n  File \"/usr/lib/python2.7/dist-packages/pip/__init__.py\", line 235, in main\n    return command.main(cmd_args)\n  File \"/usr/lib/python2.7/dist-packages/pip/basecommand.py\", line 161, in main\n    text = '\\n'.join(complete_log)\nUnicodeDecodeError: 'ascii' codec can't decode byte 0xd0 in position 45: ordinal not in range(128)\n"}
+...ignoring
+
+TASK [docker : Install specific pip, setuptools, docker-py and docker-compose with pip] ***
+skipping: [localhost] => (item={u'version': u'latest', u'name': u'pip', u'install': True}) 
+skipping: [localhost] => (item={u'version': u'latest', u'name': u'setuptools', u'install': True}) 
+skipping: [localhost] => (item={u'version': u'latest', u'name': u'docker-py', u'install': True}) 
+skipping: [localhost] => (item={u'version': u'latest', u'name': u'docker-compose', u'install': True}) 
+
+TASK [docker : Check if /etc/updatedb.conf exists] *****************************
+ok: [localhost]
+
+TASK [docker : Ensure updatedb does not index /var/lib/docker] *****************
+ok: [localhost]
+
+TASK [docker : Check if /etc/default/ufw exists] *******************************
+ok: [localhost]
+
+TASK [docker : Change ufw default forward policy from drop to accept] **********
+ok: [localhost]
+
+TASK [docker : Start docker] ***************************************************
+ok: [localhost]
+
+TASK [docker : Start docker.io] ************************************************
+skipping: [localhost]
+
+TASK [docker : Add users to the docker group] **********************************
+
+TASK [docker : update facts if docker0 is not defined] *************************
+skipping: [localhost]
+
+TASK [system : en_US.UTF-8 locale create] **************************************
+changed: [localhost]
+
+TASK [system : apt-get update] *************************************************
+ok: [localhost]
+
+TASK [system : Ruby Passenger installing and build] ****************************
+ok: [localhost]
+
+TASK [system : PostgreSQL Installing] ******************************************
+ok: [localhost]
+
+TASK [system : Debug] **********************************************************
+ok: [localhost] => {
+    "msg": "14.04"
+}
+
+TASK [system : Apache settings for 14.04] **************************************
+ok: [localhost]
+
+TASK [system : Apache settings for 16.04] **************************************
+skipping: [localhost]
+
+TASK [system : Installing tools] ***********************************************
+ok: [localhost]
+
+TASK [system : dir settings] ***************************************************
+ok: [localhost]
+
+TASK [pg : PostgreSQL user creating] *******************************************
+ok: [localhost]
+
+TASK [pg : PostgreSQL] *********************************************************
+ok: [localhost]
+
+TASK [ruby : Ruby check] *******************************************************
+ok: [localhost]
+
+TASK [ruby : Ruby dir check] ***************************************************
+ok: [localhost]
+
+TASK [ruby : Ruby download] ****************************************************
+skipping: [localhost]
+
+TASK [ruby : Ruby expanding] ***************************************************
+skipping: [localhost]
+
+TASK [ruby : Ruby configure] ***************************************************
+skipping: [localhost]
+
+TASK [ruby : Ruby making] ******************************************************
+skipping: [localhost]
+
+TASK [ruby : Ruby install] *****************************************************
+skipping: [localhost]
+
+TASK [ruby : bundler check] ****************************************************
+ok: [localhost]
+
+TASK [redmine : Redmine cheking] ***********************************************
+ok: [localhost]
+
+TASK [redmine : database.yml creating] *****************************************
+ok: [localhost]
+
+TASK [redmine : configuration.yml creating] ************************************
+ok: [localhost]
+
+TASK [redmine : Gemfile.lock check] ********************************************
+ok: [localhost]
+
+TASK [redmine : gems installing] ***********************************************
+skipping: [localhost]
+
+TASK [redmine : gems dir setup] ************************************************
+changed: [localhost]
+
+TASK [redmine : secret token] **************************************************
+changed: [localhost]
+
+TASK [redmine : DB check] ******************************************************
+changed: [localhost]
+
+TASK [redmine : DB process] ****************************************************
+skipping: [localhost]
+
+TASK [apache : Redmine dir install] ********************************************
+changed: [localhost]
+
+TASK [apache : Passenger check] ************************************************
+ok: [localhost]
+
+TASK [apache : Passenger Install] **********************************************
+skipping: [localhost]
+
+TASK [apache : Passenger install modules] **************************************
+skipping: [localhost]
+
+TASK [apache : Passenger get setting modules] **********************************
+ok: [localhost]
+
+TASK [apache : redmine.conf copy] **********************************************
+ok: [localhost]
+
+TASK [apache : Redmine /redmine creating link] *********************************
+ok: [localhost]
+
+TASK [apache : Redmine settings] ***********************************************
+changed: [localhost]
+
+TASK [apache : Apache settings] ************************************************
+changed: [localhost]
+
+TASK [Ending...] ***************************************************************
+ok: [localhost] => {
+    "msg": "Install complete http://10.0.2.15/redmine/ "
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=39   changed=7    unreachable=0    failed=0   
+

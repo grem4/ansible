@@ -77,3 +77,14 @@
     REDMINE_LANG: ja
   when:
     result_database_yml|changed
+
+#- name: Bring up Docker container
+#  sudo: yes
+#  hosts: localhost
+#  gather_facts: false
+#  vars:
+#    inventory:
+#      - name: host1
+#        image: "grem4/redmine"
+#  roles:
+#    - { role: provision_docker, provision_docker_inventory: "{{inventory}}" }
